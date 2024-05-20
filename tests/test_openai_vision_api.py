@@ -9,8 +9,9 @@ import openai
 
 from fastchat.utils import run_cmd
 
-openai.api_key = "EMPTY"  # Not support yet
-openai.base_url = "http://localhost:8000/v1/"
+  # Not support yet
+# TODO: The 'openai.base_url' option isn't read in the client API. You will need to pass it when you instantiate the client, e.g. 'OpenAI(base_url="http://localhost:8000/v1/")'
+# openai.base_url = "http://localhost:8000/v1/"
 
 
 def encode_image(image):

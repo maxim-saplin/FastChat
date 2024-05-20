@@ -18,8 +18,7 @@ from fastchat.llm_judge.common import (
     temperature_config,
     chat_completion_openai,
     chat_completion_anthropic,
-    chat_completion_palm,
-)
+    chat_completion_palm
 from fastchat.llm_judge.gen_model_answer import reorg_answer_file
 from fastchat.model.model_adapter import get_conversation_template, ANTHROPIC_MODEL_LIST
 
@@ -117,7 +116,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.openai_api_base is not None:
-        openai.api_base = args.openai_api_base
+        # TODO: The 'openai.api_base' option isn't read in the client API. You will need to pass it when you instantiate the client, e.g. 'OpenAI(base_url=args.openai_api_base)'
+        # openai.api_base = args.openai_api_base
 
     question_file = f"data/{args.bench_name}/question.jsonl"
     questions = load_questions(question_file, args.question_begin, args.question_end)
