@@ -14,10 +14,15 @@ from typing import Optional
 import openai
 from openai import AzureOpenAI
 
-client = AzureOpenAI(
-    api_version="2023-07-01-preview",
-    azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
-    api_key=os.environ["AZURE_OPENAI_KEY"])
+
+try:
+    client = AzureOpenAI(
+        api_version="2023-07-01-preview",
+        azure_endpoint=os.environ.get("AZURE_OPENAI_ENDPOINT"),
+        api_key=os.environ.get("AZURE_OPENAI_KEY"))
+except Exception as e:
+    client = None
+    print(f"Failed to initialize AzureOpenAI client. Error: {e}")
 
 import anthropic
 
