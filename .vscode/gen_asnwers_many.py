@@ -1,4 +1,5 @@
 import subprocess
+import concurrent.futures
 
 def run_operation(epoch, model_path, model_id):
     """
@@ -30,10 +31,24 @@ model_paths = [
     "F:\\src\\finetuning\\qlora\\out_qlora-20240523143404\\checkpoint-2076"
 ]
 
-# Iterate through each checkpoint and run the operation in a new Command Prompt
-for epoch, model_path in enumerate(model_paths, 1):
-    model_id = f"stablelm-2-brief-1_6b_v8_r50_epoch-{epoch:02}"
-    
-    run_operation(epoch, model_path, model_id)
+# Maximum number of workers (processes) to run simultaneously
+MAX_WORKERS = 3
+
+# Using ThreadPoolExecutor to manage the concurrency
+with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+    future_to_operation = {
+        executor.submit(run_operation, epoch, model_path, f"stablelm-2-brief-1_6b_v8_r50_epoch-{epoch:02}"): model_path
+        for epoch, model_path in enumerate(model_paths, 1)
+    }
+
+    # As each future completes, print its result
+    for future in concurrent.futures.as_completed(future_to_operation):
+        model_path = future_to_operation[future]
+        try:
+            future.result()  # We are not expecting any return value here, just catching exceptions
+        except Exception as exc:
+            print(f"{model_path} generated an exception: {exc}")
+        else:
+            print(f"{model_path} has completed.")
 
 print("Script execution started. Check the new Command Prompt windows for progress.")
