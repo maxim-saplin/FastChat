@@ -3,13 +3,7 @@ import concurrent.futures
 from dotenv import load_dotenv
 
 # Hardcoded list of models
-model_list = [
-    "stablelm-2-brief-1_6b_v8_r50_epoch-1",
-    "stablelm-2-brief-1_6b_v8_r50_epoch-2",
-    "stablelm-2-brief-1_6b_v8_r50_epoch-3",
-    "stablelm-2-brief-1_6b_v8_r50_epoch-4",
-    "stablelm-2-brief-1_6b_v8_r50_epoch-5",
-]
+model_list = [f"stablelm-2-brief-1_6b_v8_r51_epoch-{i:02}" for i in range(1, 13)]
 
 # Load environment variables from .env file
 load_dotenv()
@@ -22,15 +16,11 @@ def run_operation(model_id, azure_deployment_name):
     """
     Run the operation with the provided model-id and Azure deployment name.
     """
-    # Construct command to execute in the new terminal
-    command = f"python gen_judgment.py --model-list {model_id} --azure-deployment-name {azure_deployment_name} --parallel 5"
-
-    # Use `cmd /c` to run the command and then close the command prompt
-    start_command = f"cmd /c {command}"
+    command = f"python3.11 gen_judgment.py -y --model-list {model_id} --azure-deployment-name {azure_deployment_name} --parallel 5"
 
     # Running the constructed command
     subprocess.run(
-        start_command, shell=True, cwd="${workspaceFolder}/fastchat/llm_judge"
+        command, shell=True, cwd="/private/var/user/src/FastChat/fastchat/llm_judge"
     )
 
 
@@ -50,13 +40,11 @@ def main():
             try:
                 future.result()  # We are not expecting any return value here, just catching exceptions
             except Exception as exc:
-                print(f"{model_id} generated an exception: {exc}")
+                print(f"\033[91m{model_id} generated an exception: {exc}\033[0m")  # Red text for errors
             else:
-                print(f"{model_id} has completed.")
+                print(f"\033[92m{model_id} has completed.\033[0m")  # Green text for successful completion
 
-    print(
-        "Script execution started. Check the new Command Prompt windows for progress."
-    )
+    print("Script execution started. Check the terminal for progress.")
 
 
 if __name__ == "__main__":
