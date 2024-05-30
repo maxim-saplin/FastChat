@@ -3,7 +3,7 @@ import concurrent.futures
 from dotenv import load_dotenv
 
 # Hardcoded list of models
-model_list = [f"stablelm-2-brief-1_6b_v8_r51_epoch-{i:02}" for i in range(1, 13)]
+model_list = [f"stablelm-2-brief-1_6b_v8_r52_epoch-{i:02}" for i in range(1, 13)]
 
 # Load environment variables from .env file
 load_dotenv()
