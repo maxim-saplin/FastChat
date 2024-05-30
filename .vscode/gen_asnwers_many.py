@@ -19,18 +19,24 @@ def run_operation(epoch, model_path, model_id):
 
 # Hardcoded paths for the model checkpoints
 model_paths = [
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240526222223\\checkpoint-1361",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240526222223\\checkpoint-2723",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240526222223\\checkpoint-4085",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240526222223\\checkpoint-5446",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240526222223\\checkpoint-6808",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240526222223\\checkpoint-8170",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240526222223\\checkpoint-9531",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240526222223\\checkpoint-10893",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240526222223\\checkpoint-12249",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240526222223\\checkpoint-13611",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240526222223\\checkpoint-14973",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240526222223\\checkpoint-16332"
+    "F:\\src\\finetuning\\qlora\\out_qlora-20240528144647\\checkpoint-3631",
+    "F:\\src\\finetuning\\qlora\\out_qlora-20240528144647\\checkpoint-7262",
+    "F:\\src\\finetuning\\qlora\\out_qlora-20240528144647\\checkpoint-10893",
+    "F:\\src\\finetuning\\qlora\\out_qlora-20240528144647\\checkpoint-14524",
+    "F:\\src\\finetuning\\qlora\\out_qlora-20240528144647\\checkpoint-18155",
+    "F:\\src\\finetuning\\qlora\\out_qlora-20240528144647\\checkpoint-21787",
+    "F:\\src\\finetuning\\qlora\\out_qlora-20240528144647\\checkpoint-25418",
+    "F:\\src\\finetuning\\qlora\\out_qlora-20240528144647\\checkpoint-29049",
+    "F:\\src\\finetuning\\qlora\\out_qlora-20240528144647\\checkpoint-32680",
+    "F:\\src\\finetuning\\qlora\\out_qlora-20240528144647\\checkpoint-36311",
+    "F:\\src\\finetuning\\qlora\\out_qlora-20240528144647\\checkpoint-39942",
+    "F:\\src\\finetuning\\qlora\\out_qlora-20240528144647\\checkpoint-43572",
+
+    "F:\\src\\finetuning\\qlora\\out_qlora-20240530003202\\checkpoint-2723",
+    "F:\\src\\finetuning\\qlora\\out_qlora-20240530003202\\checkpoint-5446",
+    "F:\\src\\finetuning\\qlora\\out_qlora-20240530003202\\checkpoint-8170",
+    "F:\\src\\finetuning\\qlora\\out_qlora-20240530003202\\checkpoint-10893",
+    "F:\\src\\finetuning\\qlora\\out_qlora-20240530003202\\checkpoint-13615"
 ]
 
 # Maximum number of workers (processes) to run simultaneously
@@ -41,7 +47,7 @@ def main():
     # Using ProcessPoolExecutor to manage the concurrency of subprocesses
     with concurrent.futures.ProcessPoolExecutor(max_workers=MAX_WORKERS) as executor:
         future_to_operation = {
-            executor.submit(run_operation, epoch, model_path, f"stablelm-2-brief-1_6b_v8_r52_epoch-{epoch:02}"): model_path
+            executor.submit(run_operation, epoch, model_path, f"stablelm-2-brief-1_6b_v8_r53_epoch-{epoch:02}"): model_path
             for epoch, model_path in enumerate(model_paths, 1)
         }
 
