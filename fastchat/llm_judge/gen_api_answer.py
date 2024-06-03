@@ -19,6 +19,7 @@ from fastchat.llm_judge.common import (
     chat_completion_openai,
     chat_completion_anthropic,
     chat_completion_palm
+)
 from fastchat.llm_judge.gen_model_answer import reorg_answer_file
 from fastchat.model.model_adapter import get_conversation_template, ANTHROPIC_MODEL_LIST
 
@@ -26,9 +27,9 @@ from fastchat.model.model_adapter import get_conversation_template, ANTHROPIC_MO
 def get_answer(
     question: dict, model: str, num_choices: int, max_tokens: int, answer_file: str
 ):
-    assert (
+    assert not (
         args.force_temperature is not None and "required_temperature" in question.keys()
-    ) == False
+    )
     if args.force_temperature is not None:
         temperature = args.force_temperature
     elif "required_temperature" in question.keys():
@@ -113,11 +114,18 @@ if __name__ == "__main__":
         "--parallel", type=int, default=1, help="The number of concurrent API calls."
     )
     parser.add_argument("--openai-api-base", type=str, default=None)
+    parser.add_argument(
+        "--force_temperature",
+        type=float,
+        default=0.7,
+        help="The sampling temperature, ranging from 0.0 to 1.0. This sets the temperature for all generations."
+    )
+
     args = parser.parse_args()
 
     if args.openai_api_base is not None:
         # TODO: The 'openai.api_base' option isn't read in the client API. You will need to pass it when you instantiate the client, e.g. 'OpenAI(base_url=args.openai_api_base)'
-        # openai.api_base = args.openai_api_base
+        openai.api_base = args.openai_api_base
 
     question_file = f"data/{args.bench_name}/question.jsonl"
     questions = load_questions(question_file, args.question_begin, args.question_end)
@@ -137,6 +145,7 @@ if __name__ == "__main__":
                 args.model,
                 args.num_choices,
                 args.max_tokens,
+                # args.force_temperature,
                 answer_file,
             )
             futures.append(future)
