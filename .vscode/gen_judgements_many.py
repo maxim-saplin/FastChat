@@ -3,7 +3,20 @@ import concurrent.futures
 from dotenv import load_dotenv
 
 # Hardcoded list of models
-model_list = [f"stablelm-2-brief-1_6b_v8_r53_epoch-{i:02}" for i in range(1, 18)]
+# model_list = [f"stablelm-2-brief-1_6b_v8_r53_epoch-{i:02}" for i in range(1, 18)]
+# model_list = [f"stablelm-2-zephyr-1.6b-Q8_t{i:02}" for i in range(0, 11)]
+
+
+model_files = [
+    "Phi-3-medium-4k-Q8",
+    "Phi-3-medium-4k-Q8_2",
+    "Phi-3-medium-4k-Q8_3",
+    "Phi-3-medium-4k-Q8_4",
+    "Meta-Llama-3-8B-Instruct-hf",
+]
+# Remove extensions and load into model_list
+model_list = [model.split(".json")[0] for model in model_files]
+
 
 # Load environment variables from .env file
 load_dotenv()
