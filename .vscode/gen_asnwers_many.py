@@ -19,24 +19,11 @@ def run_operation(epoch, model_path, model_id):
 
 # Hardcoded paths for the model checkpoints
 model_paths = [
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240528144647\\checkpoint-3631",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240528144647\\checkpoint-7262",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240528144647\\checkpoint-10893",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240528144647\\checkpoint-14524",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240528144647\\checkpoint-18155",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240528144647\\checkpoint-21787",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240528144647\\checkpoint-25418",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240528144647\\checkpoint-29049",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240528144647\\checkpoint-32680",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240528144647\\checkpoint-36311",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240528144647\\checkpoint-39942",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240528144647\\checkpoint-43572",
-
     "F:\\src\\finetuning\\qlora\\out_qlora-20240530003202\\checkpoint-2723",
     "F:\\src\\finetuning\\qlora\\out_qlora-20240530003202\\checkpoint-5446",
     "F:\\src\\finetuning\\qlora\\out_qlora-20240530003202\\checkpoint-8170",
     "F:\\src\\finetuning\\qlora\\out_qlora-20240530003202\\checkpoint-10893",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240530003202\\checkpoint-13615"
+    "F:\\src\\finetuning\\qlora\\out_qlora-20240530003202\\checkpoint-13615",
 ]
 
 # Maximum number of workers (processes) to run simultaneously
