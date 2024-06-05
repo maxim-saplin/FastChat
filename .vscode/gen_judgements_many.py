@@ -8,9 +8,6 @@ from dotenv import load_dotenv
 
 
 model_files = [
-    "Phi-3-medium-4k-Q8",
-    "Phi-3-medium-4k-Q8_2",
-    "Phi-3-medium-4k-Q8_3",
     "Phi-3-medium-4k-Q8_4",
     "Meta-Llama-3-8B-Instruct-hf",
 ]
@@ -22,7 +19,7 @@ model_list = [model.split(".json")[0] for model in model_files]
 load_dotenv()
 
 # Maximum number of workers (processes) to run simultaneously
-MAX_WORKERS = 3
+MAX_WORKERS = 2
 
 
 def run_operation(model_id, azure_deployment_name):
