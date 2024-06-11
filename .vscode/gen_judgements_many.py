@@ -4,13 +4,15 @@ from dotenv import load_dotenv
 
 # Hardcoded list of models
 # model_list = [f"stablelm-2-brief-1_6b_v8_r53_epoch-{i:02}" for i in range(1, 18)]
-model_list = [f"Phi-3-medium-4k-Q8_t{i:02}" for i in range(0, 11)]
+# model_list = [f"Phi-3-medium-4k-Q8_t{i:02}" for i in range(0, 11)]
 
 
-# model_files = [
-#     "Phi-3-medium-4k-Q8_4",
-#     "Meta-Llama-3-8B-Instruct-hf",
-# ]
+model_list = [
+    "Phi-3-medium-4k-Q8_gpt4_8k",
+    "Phi-3-medium-4k-Q8_2_gpt4_8k",
+    "Phi-3-medium-4k-Q8_3_gpt4_8k",
+    "Phi-3-medium-4k-Q8_4_gpt4_8k",
+]
 
 
 # Load environment variables from .env file
@@ -18,6 +20,7 @@ load_dotenv()
 
 # Maximum number of workers (processes) to run simultaneously
 MAX_WORKERS = 3
+azure_deployment_name = "gpt-4-0613"  # "gpt-4o-2024-05-13" #"gpt-4-0125-preview"
 
 
 def run_operation(model_id, azure_deployment_name):
@@ -33,8 +36,6 @@ def run_operation(model_id, azure_deployment_name):
 
 
 def main():
-    azure_deployment_name = "gpt-4-0125-preview"
-
     # Using ProcessPoolExecutor to manage the concurrency of subprocesses
     with concurrent.futures.ProcessPoolExecutor(max_workers=MAX_WORKERS) as executor:
         future_to_operation = {
@@ -48,9 +49,13 @@ def main():
             try:
                 future.result()  # We are not expecting any return value here, just catching exceptions
             except Exception as exc:
-                print(f"\033[91m{model_id} generated an exception: {exc}\033[0m")  # Red text for errors
+                print(
+                    f"\033[91m{model_id} generated an exception: {exc}\033[0m"
+                )  # Red text for errors
             else:
-                print(f"\033[92m{model_id} has completed.\033[0m")  # Green text for successful completion
+                print(
+                    f"\033[92m{model_id} has completed.\033[0m"
+                )  # Green text for successful completion
 
     print("Script execution started. Check the terminal for progress.")
 
