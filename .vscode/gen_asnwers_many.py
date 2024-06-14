@@ -19,22 +19,22 @@ def run_operation(epoch, model_path, model_id):
 
 # Hardcoded paths for the model checkpoints
 model_paths = [
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240530003202\\checkpoint-2723",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240530003202\\checkpoint-5446",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240530003202\\checkpoint-8170",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240530003202\\checkpoint-10893",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240530003202\\checkpoint-13615",
+    "F:\\src\\finetuning\\qlora\\out_qlora-20240611151306\\checkpoint-10191",
+    "F:\\src\\finetuning\\qlora\\out_qlora-20240611151306\\checkpoint-20382",
+    "F:\\src\\finetuning\\qlora\\out_qlora-20240611151306\\checkpoint-30573",
+    "F:\\src\\finetuning\\qlora\\out_qlora-20240611151306\\checkpoint-40765",
 ]
 
 # Maximum number of workers (processes) to run simultaneously
-MAX_WORKERS = 3
+MAX_WORKERS = 4
+MODEL_NAME = "stablelm-2-brief-1_6b_v8_r55"
 
 
 def main():
     # Using ProcessPoolExecutor to manage the concurrency of subprocesses
     with concurrent.futures.ProcessPoolExecutor(max_workers=MAX_WORKERS) as executor:
         future_to_operation = {
-            executor.submit(run_operation, epoch, model_path, f"stablelm-2-brief-1_6b_v8_r53_epoch-{epoch:02}"): model_path
+            executor.submit(run_operation, epoch, model_path, f"{MODEL_NAME}_epoch-{epoch:02}"): model_path
             for epoch, model_path in enumerate(model_paths, 1)
         }
 
