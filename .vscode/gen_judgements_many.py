@@ -3,11 +3,11 @@ import concurrent.futures
 from dotenv import load_dotenv
 
 # Hardcoded list of models
-model_list = [f"stablelm-2-brief-1_6b_v8_r54_epoch-{i:02}" for i in range(1, 6)]
+model_list = [f"stablelm-2-brief-1_6b_v8_r55_epoch-{i:02}" for i in range(1, 5)]
 
-# Load environment variables from .env file
+azure_deployment_name = "gpt-4-0125-preview"
+
 load_dotenv()
-
 # Maximum number of workers (processes) to run simultaneously
 MAX_WORKERS = 3
 
@@ -25,8 +25,6 @@ def run_operation(model_id, azure_deployment_name):
 
 
 def main():
-    azure_deployment_name = "gpt-4-0125-preview"
-
     # Using ProcessPoolExecutor to manage the concurrency of subprocesses
     with concurrent.futures.ProcessPoolExecutor(max_workers=MAX_WORKERS) as executor:
         future_to_operation = {
