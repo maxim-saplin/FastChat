@@ -23,19 +23,24 @@ model_paths = [
     "F:\\src\\finetuning\\qlora\\out_qlora-20240611151306\\checkpoint-20382",
     "F:\\src\\finetuning\\qlora\\out_qlora-20240611151306\\checkpoint-30573",
     "F:\\src\\finetuning\\qlora\\out_qlora-20240611151306\\checkpoint-40765",
+    "F:\\src\\finetuning\\qlora\\out_qlora-20240611151306\\checkpoint-50955",
+    "F:\\src\\finetuning\\qlora\\out_qlora-20240611151306\\checkpoint-61146",
 ]
 
 # Maximum number of workers (processes) to run simultaneously
 MAX_WORKERS = 4
 MODEL_NAME = "stablelm-2-brief-1_6b_v8_r55"
+SKIP_N = 4
 
 
 def main():
+    global SKIP_N
     # Using ProcessPoolExecutor to manage the concurrency of subprocesses
     with concurrent.futures.ProcessPoolExecutor(max_workers=MAX_WORKERS) as executor:
+
         future_to_operation = {
             executor.submit(run_operation, epoch, model_path, f"{MODEL_NAME}_epoch-{epoch:02}"): model_path
-            for epoch, model_path in enumerate(model_paths, 1)
+            for epoch, model_path in enumerate(model_paths[SKIP_N:], SKIP_N + 1)
         }
 
         # As each future completes, print its result
