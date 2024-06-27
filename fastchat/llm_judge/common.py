@@ -12,17 +12,8 @@ import time
 from typing import Optional
 
 import openai
-from openai import AzureOpenAI
+from openai import AzureOpenAI, OpenAI
 
-
-try:
-    client = AzureOpenAI(
-        api_version="2023-07-01-preview",
-        azure_endpoint=os.environ.get("AZURE_OPENAI_ENDPOINT"),
-        api_key=os.environ.get("AZURE_OPENAI_KEY"))
-except Exception as e:
-    client = None
-    print(f"Failed to initialize AzureOpenAI client. Error: {e}")
 
 import anthropic
 
@@ -183,7 +174,8 @@ def run_judge_single(
             azure_deployment_name, conv, temperature=0, max_tokens=2048
         )
     elif model in OPENAI_MODEL_LIST:
-        judgment = chat_completion_openai(model, conv, temperature=0, max_tokens=2048)
+        judgment = chat_completion_openai(
+            model, conv, temperature=0, max_tokens=2048)
     elif model in ANTHROPIC_MODEL_LIST:
         judgment = chat_completion_anthropic(
             model, conv, temperature=0, max_tokens=1024
@@ -292,10 +284,12 @@ def run_judge_pair(question, answer_a, answer_b, judge, ref_answer, multi_turn=F
 
     if model in OPENAI_MODEL_LIST:
         conv.set_system_message(system_prompt)
-        judgment = chat_completion_openai(model, conv, temperature=0, max_tokens=2048)
+        judgment = chat_completion_openai(
+            model, conv, temperature=0, max_tokens=2048)
     elif model in ANTHROPIC_MODEL_LIST:
         if system_prompt != "You are a helpful assistant.":
-            user_prompt = "[Instruction]\n" + system_prompt + "\n\n" + user_prompt
+            user_prompt = "[Instruction]\n" + \
+                system_prompt + "\n\n" + user_prompt
             conv.messages[0][1] = user_prompt
         judgment = chat_completion_anthropic(
             model, conv, temperature=0, max_tokens=1024
@@ -436,11 +430,17 @@ def chat_completion_openai(model, conv, temperature, max_tokens, api_dict=None):
     for _ in range(API_MAX_RETRY):
         try:
             messages = conv.to_openai_api_messages()
+
+            client = OpenAI(
+                api_key='xyz',  # api_dict["api_key"],
+                base_url=openai.api_base  # api_dict["api_base"]
+            )
+
             response = client.chat.completions.create(model=model,
-            messages=messages,
-            n=1,
-            temperature=temperature,
-            max_tokens=max_tokens)
+                                                      messages=messages,
+                                                      n=1,
+                                                      temperature=temperature,
+                                                      max_tokens=max_tokens)
             output = response.choices[0].message.content
             break
         except openai.OpenAIError as e:
@@ -461,11 +461,17 @@ def chat_completion_openai_azure(model, conv, temperature, max_tokens, api_dict=
     for _ in range(API_MAX_RETRY):
         try:
             messages = conv.to_openai_api_messages()
+
+            client = AzureOpenAI(
+                api_version="2023-07-01-preview",
+                azure_endpoint=os.environ.get("AZURE_OPENAI_ENDPOINT"),
+                api_key=os.environ.get("AZURE_OPENAI_KEY"))
+
             response = client.chat.completions.create(model=model,
-            messages=messages,
-            n=1,
-            temperature=temperature,
-            max_tokens=max_tokens)
+                                                      messages=messages,
+                                                      n=1,
+                                                      temperature=temperature,
+                                                      max_tokens=max_tokens)
             output = response.choices[0].message.content
             break
         except openai.OpenAIError as e:
@@ -524,7 +530,8 @@ def chat_completion_palm(chat_state, model, conv, temperature, max_tokens):
     output = API_ERROR_OUTPUT
     for _ in range(API_MAX_RETRY):
         try:
-            response = chat_state.send_message(conv.messages[-2][1], **parameters)
+            response = chat_state.send_message(
+                conv.messages[-2][1], **parameters)
             output = response.text
             break
         except Exception as e:
