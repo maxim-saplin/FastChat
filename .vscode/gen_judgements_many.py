@@ -3,7 +3,7 @@ import concurrent.futures
 from dotenv import load_dotenv
 
 # Hardcoded list of models
-model_list = [f"stablelm-2-brief-1_6b_v8_r56_epoch-{i:02}" for i in range(1, 6)]
+model_list = [f"stablelm-2-brief-1_6b_v8_r57_epoch-{i:02}" for i in range(1, 2)]
 
 azure_deployment_name = "gpt-4-0125-preview"
 
