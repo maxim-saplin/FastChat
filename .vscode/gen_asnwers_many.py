@@ -19,16 +19,12 @@ def run_operation(epoch, model_path, model_id):
 
 # Hardcoded paths for the model checkpoints
 model_paths = [
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240625120306\\checkpoint-5927",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240625120306\\checkpoint-11854",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240625120306\\checkpoint-17781",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240625120306\\checkpoint-23708",
-    "F:\\src\\finetuning\\qlora\\out_qlora-20240625120306\\checkpoint-29635",
+    r"F:\src\finetuning\versions\stablelm-2-brief-1_6b_r57",
 ]
 
 # Maximum number of workers (processes) to run simultaneously
 MAX_WORKERS = 3
-MODEL_NAME = "stablelm-2-brief-1_6b_v8_r56"
+MODEL_NAME = "stablelm-2-brief-1_6b_v8_r57"
 SKIP_N = 0
 
 
